@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le AI Chat</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>Spark Chat</h2>
+            <button class="toggle-sidebar" id="toggleSidebar">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+        </div>
+        
+        
+        <button class="new-chat-btn" id="newChatBtn">
+            <i class="fas fa-plus"></i> New Chat
+        </button>
+
+        <div class="chat-history" id="chatHistory">
+            <div class="chat-item" data-chat-id="1">
+                <span>🌍 World Geography</span>
+                <small>What are the largest countries?</small>
+            </div>
+            <div class="chat-item" data-chat-id="2">
+                <span>🚀 Space Exploration</span>
+                <small>Tell me about Mars missions</small>
+            </div>
+            <div class="chat-item" data-chat-id="3">
+                <span>💻 Programming</span>
+                <small>Explain Python basics</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Container -->
+    <div class="chat-container" id="chatContainer">
+        <div class="chat-header">
+            <h3 id="chatTitle">Le Chat</h3>
+            <div class="header-actions">
+                <button  class="context-btn" id="theme-toggle">
+                    <i class="fas fa-adjust"></i>
+                </button>
+                <!-- <button class="share-btn">
+                    <i class="fas fa-share-alt"></i> Share
+                </button> -->
+                <button class="context-btn" id="contextBtn">
+                    <i class="fas fa-link"></i> 
+                </button>
+            </div>
+        </div>
+
+        <div id="chat-messages" class="chat-messages">
+            <!-- Messages will be dynamically added here -->
+            <div class="welcome-message">
+                <h2>Welcome to Le Chat AI</h2>
+                <p>Select a chat or start a new conversation</p>
+            </div>
+        </div>
+
+        <div class="chat-input">
+            <input type="text" id="message-input" placeholder="Type your message...">
+            <button class="send-btn" onclick="sendMessage()">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Context Modal -->
+    <div id="contextModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3>Conversation Context</h3>
+            <div id="contextDetails"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
