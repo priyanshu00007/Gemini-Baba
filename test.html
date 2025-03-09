@@ -1,10 +1,9 @@
-<!-- third commit -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Le Chat - Spark Company</title>
+    <title>Le AI Chat</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         :root {
@@ -12,9 +11,8 @@
             --secondary-color: #34A853;
             --background-color: #F1F3F4;
             --text-color: #202124;
-            --sidebar-width: 280px;
-            --sidebar-collapsed-width: 70px;
-            --accent-color: #EA4335;
+            --sidebar-width: 250px;
+            --sidebar-collapsed-width: 60px;
         }
 
         * {
@@ -24,23 +22,22 @@
         }
 
         body {
-            font-family: 'Roboto', Arial, sans-serif;
+            font-family: 'Google Sans', Arial, sans-serif;
             display: flex;
             height: 100vh;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background-color: var(--background-color);
             overflow: hidden;
         }
 
         .sidebar {
             width: var(--sidebar-width);
-            background: #fff;
-            border-right: 1px solid #e0e0e0;
-            padding: 20px;
+            background-color: white;
+            border-right: 1px solid #E0E0E0;
+            padding: 15px;
             display: flex;
             flex-direction: column;
             transition: width 0.3s ease, left 0.3s ease;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            display: none; /* Hidden by default */
+            position: relative;
         }
 
         .sidebar.collapsed {
@@ -51,8 +48,7 @@
         .sidebar.collapsed .sidebar-header h2,
         .sidebar.collapsed .new-chat-btn span,
         .sidebar.collapsed .chat-item span,
-        .sidebar.collapsed .chat-item small,
-        .sidebar.collapsed .chat-actions {
+        .sidebar.collapsed .chat-item small {
             display: none;
         }
 
@@ -60,12 +56,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 25px;
-        }
-
-        .sidebar-header h2 {
-            font-size: 1.5em;
-            color: var(--primary-color);
+            margin-bottom: 20px;
         }
 
         .toggle-sidebar {
@@ -83,21 +74,16 @@
 
         .new-chat-btn {
             width: 100%;
-            padding: 12px;
-            background: var(--primary-color);
+            padding: 10px;
+            background-color: var(--primary-color);
             color: white;
             border: none;
-            border-radius: 8px;
-            margin-bottom: 20px;
+            border-radius: 5px;
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
-            transition: background 0.3s;
-        }
-
-        .new-chat-btn:hover {
-            background: #3267d6;
         }
 
         .chat-history {
@@ -106,83 +92,53 @@
         }
 
         .chat-item {
-            padding: 15px;
+            padding: 12px;
             margin-bottom: 10px;
-            background: #fafafa;
+            background-color: #F8F9FA;
             border-radius: 8px;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: background-color 0.2s;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
+        }
+
+        .chat-item span {
+            font-weight: bold;
+        }
+
+        .chat-item small {
+            color: #666;
+            font-size: 0.8em;
         }
 
         .chat-item:hover {
-            background: #f0f0f0;
-        }
-
-        .chat-info {
-            max-width: 70%;
-        }
-
-        .chat-info span {
-            font-weight: 500;
-            color: var(--text-color);
-        }
-
-        .chat-info small {
-            color: #888;
-            font-size: 0.9em;
-        }
-
-        .chat-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .chat-action-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: #888;
-            font-size: 16px;
-            transition: color 0.2s;
-        }
-
-        .chat-action-btn:hover {
-            color: var(--primary-color);
+            background-color: #E9ECEF;
         }
 
         .chat-container {
             flex-grow: 1;
             display: flex;
             flex-direction: column;
-            background: #fff;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            display: none; /* Hidden by default */
+            background-color: white;
         }
 
         .chat-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 25px;
-            background: #fff;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        .chat-header h3 {
-            color: var(--primary-color);
-            font-weight: 500;
+            padding: 15px 20px;
+            background-color: #F8F9FA;
+            border-bottom: 1px solid #E0E0E0;
         }
 
         .header-actions {
             display: flex;
-            gap: 15px;
+            gap: 10px;
+            align-items: center;
         }
 
         .context-btn {
-            background: var(--secondary-color);
+            background-color: var(--secondary-color);
             color: white;
             border: none;
             padding: 8px 15px;
@@ -190,19 +146,6 @@
             display: flex;
             align-items: center;
             gap: 5px;
-            transition: background 0.3s;
-        }
-
-        .context-btn:hover {
-            background: #2d9045;
-        }
-
-        .context-btn#logoutBtn {
-            background: var(--accent-color);
-        }
-
-        .context-btn#logoutBtn:hover {
-            background: #c7372c;
         }
 
         .hamburger-btn {
@@ -217,78 +160,67 @@
         .chat-messages {
             flex-grow: 1;
             overflow-y: auto;
-            padding: 25px;
-            background: #fff;
+            padding: 20px;
+            background-color: white;
         }
 
         .welcome-message {
             text-align: center;
             color: #666;
-            margin-top: 60px;
+            margin-top: 50px;
         }
 
         .message {
             max-width: 70%;
-            margin-bottom: 20px;
-            padding: 12px 18px;
-            border-radius: 12px;
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            border-radius: 15px;
             clear: both;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
 
         .user-message {
-            background: var(--primary-color);
+            background-color: var(--primary-color);
             color: white;
             float: right;
         }
 
         .ai-message {
-            background: #f5f5f5;
+            background-color: #F1F3F4;
             color: var(--text-color);
             float: left;
         }
 
         .rainforest-message {
-            background: rgba(34, 139, 34, 0.1);
+            background-color: rgba(34, 139, 34, 0.1);
             border-left: 4px solid #228B22;
         }
 
         .chat-input {
             display: flex;
-            padding: 20px;
-            background: #fff;
-            border-top: 1px solid #e0e0e0;
+            padding: 15px;
+            background-color: #F8F9FA;
+            border-top: 1px solid #E0E0E0;
         }
 
         #message-input {
             flex-grow: 1;
-            padding: 12px;
-            border: 1px solid #e0e0e0;
-            border-radius: 25px;
-            margin-right: 15px;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        #message-input:focus {
-            border-color: var(--primary-color);
+            padding: 10px;
+            border: 1px solid #DAE1E9;
+            border-radius: 20px;
+            margin-right: 10px;
         }
 
         .send-btn {
-            background: var(--primary-color);
+            background-color: var(--primary-color);
             color: white;
             border: none;
-            padding: 12px 25px;
-            border-radius: 25px;
+            padding: 10px 20px;
+            border-radius: 20px;
             cursor: pointer;
-            transition: background 0.3s;
         }
 
-        .send-btn:hover {
-            background: #3267d6;
-        }
-
-        .modal, .login-modal {
+        .modal {
+            display: none;
             position: fixed;
             z-index: 1000;
             left: 0;
@@ -296,17 +228,17 @@
             width: 100%;
             height: 100%;
             overflow: auto;
-            background: rgba(0,0,0,0.5);
+            background-color: rgba(0,0,0,0.4);
         }
 
-        .modal-content, .login-modal-content {
-            background: #fff;
-            margin: 10% auto;
-            padding: 30px;
-            border-radius: 15px;
-            width: 90%;
-            max-width: 400px;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 10px;
         }
 
         .close-modal {
@@ -317,67 +249,10 @@
             cursor: pointer;
         }
 
-        .login-modal-content {
-            text-align: center;
-            animation: slideIn 0.5s ease;
-        }
-
-        @keyframes slideIn {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        .login-form {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .login-form input {
-            padding: 12px;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        .login-form input:focus {
-            border-color: var(--primary-color);
-        }
-
-        .login-form button {
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .login-form button:hover {
-            background: #3267d6;
-        }
-
-        .login-logo {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 20px;
-            background: var(--primary-color);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 36px;
-            font-weight: bold;
-        }
-
         @media screen and (max-width: 768px) {
             .sidebar {
                 position: fixed;
-                left: -280px;
+                left: -250px;
                 z-index: 100;
                 height: 100%;
             }
@@ -387,7 +262,7 @@
             }
 
             .sidebar.collapsed {
-                left: -280px;
+                left: -250px;
                 width: var(--sidebar-width);
             }
 
@@ -407,20 +282,17 @@
         .typing-indicator {
             display: flex;
             align-items: center;
-            justify-content: flex-start;
-            padding: 12px 18px;
-            margin-bottom: 20px;
-            float: left;
-            clear: both;
+            justify-content: center;
+            padding: 10px;
         }
 
         .typing-dot {
-            width: 10px;
-            height: 10px;
-            margin: 0 5px;
-            background: #888;
+            width: 8px;
+            height: 8px;
+            margin: 0 4px;
+            background-color: #888;
             border-radius: 50%;
-            animation: typing-bounce 1.2s infinite ease-in-out;
+            animation: typing-bounce 1.4s infinite ease-in-out;
         }
 
         .typing-dot:nth-child(2) {
@@ -432,15 +304,67 @@
         }
 
         @keyframes typing-bounce {
-            0%, 80%, 100% { transform: translateY(0); opacity: 0.6; }
-            40% { transform: translateY(-8px); opacity: 1; }
+            0%, 80%, 100% { 
+                transform: translateY(0);
+                opacity: 0.5;
+            }
+            40% { 
+                transform: translateY(-6px);
+                opacity: 1;
+            }
+        }
+
+        body.dark-mode {
+            background-color: #121212;
+            color: #E0E0E0;
+        }
+
+        body.dark-mode .sidebar {
+            background-color: #1E1E1E;
+            border-right-color: #333;
+        }
+
+        body.dark-mode .chat-container {
+            background-color: #121212;
+        }
+
+        body.dark-mode .chat-header {
+            background-color: #1E1E1E;
+            border-bottom-color: #333;
+        }
+
+        body.dark-mode .chat-input {
+            background-color: #1E1E1E;
+            border-top-color: #333;
+        }
+
+        body.dark-mode .message.user-message {
+            background-color: #2C5BB5;
+        }
+
+        body.dark-mode .message.ai-message {
+            background-color: #2C2C2C;
+            color: #E0E0E0;
+        }
+
+        body.dark-mode .rainforest-message {
+            background-color: rgba(34, 139, 34, 0.2);
+        }
+
+        body.dark-mode .chat-item {
+            background-color: #2C2C2C;
+            color: #E0E0E0;
+        }
+
+        body.dark-mode .chat-item:hover {
+            background-color: #3C3C3C;
         }
     </style>
 </head>
 <body>
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <h2>Le Chat</h2>
+            <h2>Spark Chat</h2>
             <button class="toggle-sidebar" id="toggleSidebar">
                 <i class="fas fa-chevron-left"></i>
             </button>
@@ -450,7 +374,20 @@
             <i class="fas fa-plus"></i> <span>New Chat</span>
         </button>
 
-        <div class="chat-history" id="chatHistory"></div>
+        <div class="chat-history" id="chatHistory">
+            <div class="chat-item" data-chat-id="1">
+                <span>🌍 World Geography</span>
+                <small>What are the largest countries?</small>
+            </div>
+            <div class="chat-item" data-chat-id="2">
+                <span>🚀 Space Exploration</span>
+                <small>Tell me about Mars missions</small>
+            </div>
+            <div class="chat-item" data-chat-id="3">
+                <span>🌴 Rainforests</span>
+                <small>Facts about rainforests</small>
+            </div>
+        </div>
     </div>
 
     <div class="chat-container" id="chatContainer">
@@ -463,9 +400,6 @@
                 <button class="context-btn" id="contextBtn">
                     <i class="fas fa-link"></i>
                 </button>
-                <button class="context-btn" id="logoutBtn">
-                    <i class="fas fa-sign-out-alt"></i> Logout
-                </button>
                 <button class="hamburger-btn" id="hamburgerBtn">
                     <i class="fas fa-bars"></i>
                 </button>
@@ -474,8 +408,8 @@
 
         <div id="chat-messages" class="chat-messages">
             <div class="welcome-message">
-                <h2>Welcome to Le Chat</h2>
-                <p>Ask me anything to get started!</p>
+                <h2>Welcome to Le Chat AI</h2>
+                <p>Select a chat or start a new conversation</p>
             </div>
         </div>
 
@@ -487,7 +421,7 @@
         </div>
     </div>
 
-    <div id="contextModal" class="modal" style="display: none;">
+    <div id="contextModal" class="modal">
         <div class="modal-content">
             <span class="close-modal">×</span>
             <h3>Conversation Context</h3>
@@ -495,82 +429,54 @@
         </div>
     </div>
 
-    <div id="loginModal" class="login-modal" style="display: block;">
-        <div class="login-modal-content">
-            <div class="login-logo">LC</div>
-            <h2>Welcome to Le Chat</h2>
-            <form id="loginForm" class="login-form">
-                <input type="text" id="username" placeholder="Username" required>
-                <input type="password" id="password" placeholder="Password" required>
-                <button type="submit">Login</button>
-            </form>
-            <p id="loginError" style="color: #EA4335; display: none; margin-top: 10px;">Invalid credentials</p>
-        </div>
-    </div>
-
     <script>
-        const API_KEY = 'AIzaSyDzCA-X2BzVlJo9A7n6lI8PXKCZtCBN1Oc'; // Replace with your actual API key or leave empty for testing
+        const API_KEY ='AIzaSyDzCA-X2BzVlJo9A7n6lI8PXKCZtCBN1Oc'; // Replace with your actual API key
 
-        class AuthMiddleware {
-            constructor() {
-                this.isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
-                this.currentUser = localStorage.getItem('currentUser') || null;
-                this.users = JSON.parse(localStorage.getItem('users')) || {
-                    'user': { password: 'pass123', createdAt: new Date().toISOString() }
-                };
-            }
-
-            login(username, password) {
-                if (this.users[username] && this.users[username].password === password) {
-                    this.isAuthenticated = true;
-                    this.currentUser = username;
-                    localStorage.setItem('isAuthenticated', 'true');
-                    localStorage.setItem('currentUser', username);
-                    return true;
-                }
-                return false;
-            }
-
-            logout() {
-                this.isAuthenticated = false;
-                this.currentUser = null;
-                localStorage.removeItem('isAuthenticated');
-                localStorage.removeItem('currentUser');
-            }
-
-            checkAuth() {
-                return this.isAuthenticated;
-            }
-
-            getUser() {
-                return this.currentUser;
-            }
-        }
+        const predefinedChats = {
+            1: [
+                { type: 'user', message: 'What are the largest countries?' },
+                { type: 'ai', message: '1. Russia (17,098,242 km²)\n2. Canada (9,984,670 km²)\n3. China (9,596,961 km²)' }
+            ],
+            2: [
+                { type: 'user', message: 'Tell me about Mars missions' },
+                { type: 'ai', message: 'NASA\'s Perseverance Rover landed in 2021 to search for ancient microbial life.' }
+            ],
+            3: [
+                { type: 'user', message: 'What are some rainforest facts?' },
+                { type: 'ai', message: 'Rainforests cover ~6% of Earth\'s surface and house 50% of world\'s species.' }
+            ]
+        };
 
         class ChatHistoryManager {
-            constructor(user) {
-                this.user = user;
-                this.chats = JSON.parse(localStorage.getItem(`chatHistory_${user}`)) || {};
+            constructor() {
+                this.chats = JSON.parse(localStorage.getItem('chatHistory')) || {};
+                this.loadPredefinedChats();
+            }
+
+            loadPredefinedChats() {
+                Object.keys(predefinedChats).forEach(id => {
+                    if (!this.chats[id]) {
+                        this.chats[id] = {
+                            id,
+                            title: document.querySelector(`[data-chat-id="${id}"] span`).textContent,
+                            messages: predefinedChats[id],
+                            timestamp: new Date().toISOString()
+                        };
+                    }
+                });
                 this.save();
             }
 
             addChat(title, messages = []) {
                 const id = Date.now().toString();
-                this.chats[id] = { id, title, messages, timestamp: new Date().toISOString() };
+                this.chats[id] = {
+                    id,
+                    title,
+                    messages,
+                    timestamp: new Date().toISOString()
+                };
                 this.save();
                 return id;
-            }
-
-            renameChat(id, newTitle) {
-                if (this.chats[id]) {
-                    this.chats[id].title = newTitle;
-                    this.save();
-                }
-            }
-
-            deleteChat(id) {
-                delete this.chats[id];
-                this.save();
             }
 
             getChat(id) {
@@ -578,19 +484,15 @@
             }
 
             save() {
-                localStorage.setItem(`chatHistory_${this.user}`, JSON.stringify(this.chats));
+                localStorage.setItem('chatHistory', JSON.stringify(this.chats));
             }
 
             generateTitle(messages) {
                 if (!messages.length) return '🌿 New Chat';
                 const firstMessage = messages[0].message;
-                const keywords = firstMessage.toLowerCase().split(' ').filter(word => word.length > 3);
+                const keywords = firstMessage.toLowerCase().split(' ')
+                    .filter(word => word.length > 3);
                 return '🌿 ' + (keywords[0] || 'Chat');
-            }
-
-            clearChats() {
-                this.chats = {};
-                this.save();
             }
         }
 
@@ -609,6 +511,7 @@
                     relatedTo: this.findRelatedMessages(message)
                 };
                 this.messages.push(msgObj);
+
                 if (['rainforest', 'jungle', 'amazon'].some(k => message.toLowerCase().includes(k))) {
                     this.rainforestRelated = true;
                 }
@@ -646,68 +549,61 @@
             }
         }
 
-        class LeChatApp {
+        class GeminiChatApp {
             constructor() {
-                this.authMiddleware = new AuthMiddleware();
+                this.chatHistoryManager = new ChatHistoryManager();
+                this.contextTracker = new ContextTracker();
                 this.currentChatId = null;
                 this.isSidebarCollapsed = false;
                 this.initElements();
                 this.setupEventListeners();
                 this.initializeTheme();
-                this.checkAuthentication();
+                this.renderChatHistory();
             }
 
             initElements() {
                 this.sidebarEl = document.getElementById('sidebar');
-                this.chatContainerEl = document.getElementById('chatContainer');
                 this.chatMessagesEl = document.getElementById('chat-messages');
                 this.messageInputEl = document.getElementById('message-input');
                 this.chatTitleEl = document.getElementById('chatTitle');
                 this.chatHistoryEl = document.getElementById('chatHistory');
                 this.contextModalEl = document.getElementById('contextModal');
-                this.loginModalEl = document.getElementById('loginModal');
-                this.loginFormEl = document.getElementById('loginForm');
-                this.loginErrorEl = document.getElementById('loginError');
                 this.hamburgerBtn = document.getElementById('hamburgerBtn');
-                this.logoutBtn = document.getElementById('logoutBtn');
-                this.chatInputEl = document.querySelector('.chat-input'); // Added for theme
             }
 
             setupEventListeners() {
-                document.getElementById('toggleSidebar').addEventListener('click', () => this.toggleSidebar());
+                document.getElementById('toggleSidebar').addEventListener('click', () => {
+                    this.toggleSidebar();
+                });
+
                 document.getElementById('theme-toggle').addEventListener('click', () => {
                     const currentTheme = localStorage.getItem('theme') || 'light';
                     this.applyTheme(currentTheme === 'light' ? 'dark' : 'light');
                 });
-                document.getElementById('contextBtn').addEventListener('click', () => this.showContextModal());
-                document.getElementById('newChatBtn').addEventListener('click', () => this.startNewChat());
+
+                document.getElementById('contextBtn').addEventListener('click', () => {
+                    this.showContextModal();
+                });
+
+                document.getElementById('newChatBtn').addEventListener('click', () => {
+                    this.startNewChat();
+                });
+
                 this.chatHistoryEl.addEventListener('click', (e) => {
                     const chatItem = e.target.closest('.chat-item');
-                    if (!chatItem) return;
-                    const chatId = chatItem.dataset.chatId;
-                    if (e.target.closest('.rename-btn')) {
-                        this.renameChat(chatId);
-                    } else if (e.target.closest('.delete-btn')) {
-                        this.deleteChat(chatId);
-                    } else {
-                        this.loadChat(chatId);
-                    }
+                    if (chatItem) this.loadChat(chatItem.dataset.chatId);
                 });
+
                 this.messageInputEl.addEventListener('keypress', (e) => {
                     if (e.key === 'Enter') this.sendMessage();
                 });
+
                 document.querySelector('.close-modal').addEventListener('click', () => {
                     this.contextModalEl.style.display = 'none';
                 });
-                this.hamburgerBtn.addEventListener('click', () => this.toggleSidebarMobile());
-                this.logoutBtn.addEventListener('click', () => {
-                    this.authMiddleware.logout();
-                    this.chatHistoryManager.clearChats();
-                    this.showLoginModal();
-                });
-                this.loginFormEl.addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    this.handleLogin();
+
+                this.hamburgerBtn.addEventListener('click', () => {
+                    this.toggleSidebarMobile();
                 });
             }
 
@@ -719,59 +615,6 @@
             applyTheme(theme) {
                 document.body.classList.toggle('dark-mode', theme === 'dark');
                 localStorage.setItem('theme', theme);
-                if (theme === 'dark') {
-                    document.body.style.background = 'linear-gradient(135deg, #1e1e1e 0%, #3c3c3c 100%)';
-                    this.sidebarEl.style.background = '#2c2c2c';
-                    this.chatContainerEl.style.background = '#1e1e1e';
-                    this.chatMessagesEl.style.background = '#1e1e1e';
-                    this.chatInputEl.style.background = '#2c2c2c';
-                } else {
-                    document.body.style.background = 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)';
-                    this.sidebarEl.style.background = '#fff';
-                    this.chatContainerEl.style.background = '#fff';
-                    this.chatMessagesEl.style.background = '#fff';
-                    this.chatInputEl.style.background = '#fff';
-                }
-            }
-
-            checkAuthentication() {
-                if (this.authMiddleware.checkAuth()) {
-                    this.chatHistoryManager = new ChatHistoryManager(this.authMiddleware.getUser());
-                    this.contextTracker = new ContextTracker();
-                    this.showChatInterface();
-                    this.renderChatHistory();
-                } else {
-                    this.showLoginModal();
-                }
-            }
-
-            showChatInterface() {
-                this.sidebarEl.style.display = 'block';
-                this.chatContainerEl.style.display = 'flex';
-                this.loginModalEl.style.display = 'none';
-            }
-
-            showLoginModal() {
-                this.sidebarEl.style.display = 'none';
-                this.chatContainerEl.style.display = 'none';
-                this.loginModalEl.style.display = 'block';
-            }
-
-            handleLogin() {
-                const username = document.getElementById('username').value;
-                const password = document.getElementById('password').value;
-                if (this.authMiddleware.login(username, password)) {
-                    const previousUser = localStorage.getItem('currentUser');
-                    if (previousUser && previousUser !== username) {
-                        localStorage.removeItem(`chatHistory_${previousUser}`);
-                    }
-                    this.chatHistoryManager = new ChatHistoryManager(username);
-                    this.contextTracker = new ContextTracker();
-                    this.showChatInterface();
-                    this.renderChatHistory();
-                } else {
-                    this.loginErrorEl.style.display = 'block';
-                }
             }
 
             toggleSidebar() {
@@ -796,30 +639,24 @@
                 const chats = Object.values(this.chatHistoryManager.chats)
                     .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
                 this.chatHistoryEl.innerHTML = '';
+                
                 chats.forEach(chat => {
                     const chatItem = document.createElement('div');
                     chatItem.className = 'chat-item';
                     chatItem.dataset.chatId = chat.id;
                     chatItem.innerHTML = `
-                        <div class="chat-info">
-                            <span>${chat.title}</span>
-                            <small>${chat.messages[0]?.message.substring(0, 30) || 'Empty chat'}...</small>
-                        </div>
-                        <div class="chat-actions">
-                            <button class="chat-action-btn rename-btn" title="Rename"><i class="fas fa-edit"></i></button>
-                            <button class="chat-action-btn delete-btn" title="Delete"><i class="fas fa-trash"></i></button>
-                        </div>
+                        <span>${chat.title}</span>
+                        <small>${chat.messages[0]?.message.substring(0, 30) || 'Empty chat'}...</small>
                     `;
-                    this.chatHistoryEl.insertBefore(chatItem, this.chatHistoryEl.firstChild);
+                    if (chat.id === '1') {
+                        this.chatHistoryEl.appendChild(chatItem);
+                    } else {
+                        this.chatHistoryEl.insertBefore(chatItem, this.chatHistoryEl.firstChild);
+                    }
                 });
             }
 
             async sendMessage() {
-                if (!this.authMiddleware.checkAuth()) {
-                    this.showLoginModal();
-                    return;
-                }
-
                 const message = this.messageInputEl.value.trim();
                 if (!message || !this.currentChatId) return;
 
@@ -829,22 +666,14 @@
                 this.showTypingIndicator();
 
                 try {
-                    let aiResponse;
-                    if (message.toLowerCase().includes('what are you') || 
-                        message.toLowerCase().includes('who created you') ||
-                        message.toLowerCase().includes('who made you')) {
-                        aiResponse = "I am Le Chat, created by Spark Company! We're a multinational tech innovator dedicated to enhancing personal communication. Le Chat was designed for everyone—users worldwide—to enjoy seamless, intelligent conversations. Spark Company, headquartered in Silicon Valley, operates globally with offices in London, Tokyo, and Sydney, aiming to make AI accessible and fun!";
-                    } else if (API_KEY) {
-                        aiResponse = await this.generateAIResponse(message);
-                    } else {
-                        aiResponse = "API key missing. I'm still here to chat locally! Try asking 'what are you'.";
-                    }
+                    const aiResponse = await this.generateAIResponse(message);
                     this.hideTypingIndicator();
                     this.addMessage(aiResponse, 'ai', this.contextTracker.rainforestRelated);
                     const aiMsg = this.contextTracker.addMessage(aiResponse, 'ai');
                     
                     const chat = this.chatHistoryManager.chats[this.currentChatId];
                     chat.messages.push(userMsg, aiMsg);
+                    
                     if (chat.messages.length === 2) {
                         chat.title = this.chatHistoryManager.generateTitle(chat.messages);
                     }
@@ -858,10 +687,12 @@
             async generateAIResponse(message) {
                 const context = this.contextTracker.getContext();
                 let prompt = message;
+                
                 if (context.messages.length > 0) {
                     prompt = `Previous conversation:\n${context.messages.map(m => 
                         `${m.type === 'user' ? 'Q' : 'A'}: ${m.message}`).join('\n')}\nCurrent question: ${message}`;
                 }
+
                 if (context.rainforestRelated) {
                     prompt += '\nFocus on rainforest-related information.';
                 }
@@ -873,6 +704,7 @@
                         contents: [{ parts: [{ text: prompt }] }]
                     })
                 });
+
                 const data = await response.json();
                 return data?.candidates?.[0]?.content?.parts?.[0]?.text || 'No response generated';
             }
@@ -887,11 +719,6 @@
             }
 
             startNewChat() {
-                if (!this.authMiddleware.checkAuth()) {
-                    this.showLoginModal();
-                    return;
-                }
-
                 if (this.currentChatId && this.contextTracker.messages.length > 0) {
                     const chat = this.chatHistoryManager.chats[this.currentChatId];
                     chat.title = this.chatHistoryManager.generateTitle(chat.messages);
@@ -915,11 +742,6 @@
             }
 
             loadChat(chatId) {
-                if (!this.authMiddleware.checkAuth()) {
-                    this.showLoginModal();
-                    return;
-                }
-
                 const chat = this.chatHistoryManager.getChat(chatId);
                 if (!chat) return;
 
@@ -938,55 +760,7 @@
                 }
             }
 
-            renameChat(chatId) {
-                if (!this.authMiddleware.checkAuth()) {
-                    this.showLoginModal();
-                    return;
-                }
-
-                const chat = this.chatHistoryManager.getChat(chatId);
-                if (!chat) return;
-
-                const newTitle = prompt('Enter new chat title:', chat.title);
-                if (newTitle && newTitle.trim()) {
-                    this.chatHistoryManager.renameChat(chatId, newTitle.trim());
-                    this.renderChatHistory();
-                    if (this.currentChatId === chatId) {
-                        this.chatTitleEl.textContent = newTitle.trim();
-                    }
-                }
-            }
-
-            deleteChat(chatId) {
-                if (!this.authMiddleware.checkAuth()) {
-                    this.showLoginModal();
-                    return;
-                }
-
-                const chat = this.chatHistoryManager.getChat(chatId);
-                if (!chat) return;
-
-                this.chatHistoryManager.deleteChat(chatId);
-                this.renderChatHistory();
-                if (this.currentChatId === chatId) {
-                    this.currentChatId = null;
-                    this.contextTracker.reset();
-                    this.chatMessagesEl.innerHTML = `
-                        <div class="welcome-message">
-                            <h2>Welcome to Le Chat</h2>
-                            <p>Ask me anything to get started!</p>
-                        </div>
-                    `;
-                    this.chatTitleEl.textContent = 'Le Chat';
-                }
-            }
-
             showContextModal() {
-                if (!this.authMiddleware.checkAuth()) {
-                    this.showLoginModal();
-                    return;
-                }
-
                 const context = this.contextTracker.getContext();
                 document.getElementById('contextDetails').innerHTML = `
                     <h4>Conversation Context</h4>
@@ -1009,7 +783,6 @@
                     <div class="typing-dot"></div>
                 `;
                 this.chatMessagesEl.appendChild(typingIndicator);
-                this.chatMessagesEl.scrollTop = this.chatMessagesEl.scrollHeight;
             }
 
             hideTypingIndicator() {
@@ -1020,12 +793,12 @@
             handleError(error) {
                 console.error('Error:', error);
                 this.hideTypingIndicator();
-                this.addMessage('Oops! Something went wrong. Try again?', 'ai');
+                this.addMessage('Error occurred. Please try again.', 'ai');
             }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            window.chatApp = new LeChatApp();
+            window.chatApp = new GeminiChatApp();
         });
     </script>
 </body>
